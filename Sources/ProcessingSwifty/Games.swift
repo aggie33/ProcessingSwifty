@@ -245,7 +245,7 @@ public struct PJSCanvas<T: Game>: View {
     @Binding var game: T
     
     public var body: some View {
-        GameView(game: $game)
+        GameView($game)
             .frame(width: 400, height: 400)
             .border(.gray)
             .background(.white)
@@ -402,6 +402,10 @@ public struct GameView<T: Game>: View {
             }
             .drawingGroup()
         }
+    }
+    
+    public init(_ game: Binding<T>) {
+        self._game = game
     }
 }
 
