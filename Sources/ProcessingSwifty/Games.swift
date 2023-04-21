@@ -404,6 +404,7 @@ public struct GameView<T: Game>: View {
         }
     }
     
+    /// Creates a game view displaying `game`.
     public init(_ game: Binding<T>) {
         self._game = game
     }
