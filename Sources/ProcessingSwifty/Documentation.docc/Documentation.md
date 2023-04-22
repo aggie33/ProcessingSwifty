@@ -41,17 +41,61 @@ To make your own function that does this, use the `ContentBuilder` attribute.
 @ContentBuilder public func drawRainbow() -> Content {
     noFill()
     strokeWeight(30)
+    strokeCap(.square)
 
     stroke(.red)
-    arc(centerX: .relative(0.5), centerY: .relative(1) - 150, width: .relative(1), height: 300, from: .degrees(0), to: .degrees(180))
+    arc(centerX: .relative(0.5), centerY: .relative(0.5), width: .relative(0.6), height: .relative(0.6), from: .radians(.pi), to: .radians(0))
 
     stroke(.orange)
-    arc(centerX: .relative(0.5), centerY: .relative(1) - 150, width: .relative(1) - 60, height: 270, from: .degrees(0), to: .degrees(180))
+    arc(centerX: .relative(0.5), centerY: .relative(0.5), width: .relative(0.6) - 60, height: .relative(0.6) - 60, from: .radians(.pi), to: .radians(0))
+
+    stroke(.yellow)
+    arc(centerX: .relative(0.5), centerY: .relative(0.5), width: .relative(0.6) - 120, height: .relative(0.6) - 120, from: .radians(.pi), to: .radians(0))
+
+    stroke(.green)
+    arc(centerX: .relative(0.5), centerY: .relative(0.5), width: .relative(0.6) - 180, height: .relative(0.6) - 180, from: .radians(.pi), to: .radians(0))
 }
 ```
 
 ## Topics
 
-### <!--@START_MENU_TOKEN@-->Group<!--@END_MENU_TOKEN@-->
+### Setting up your game
 
-- <!--@START_MENU_TOKEN@-->``Symbol``<!--@END_MENU_TOKEN@-->
+- ``Game``
+- ``GameView``
+- ``PJSCanvas``
+
+### Supporting types
+
+- ``CanvasValues``
+- ``GameValues``
+- ``Content``
+- ``ContentBuilder``
+- ``Instruction````
+
+### Numeric values
+
+- ``CanvasValue``
+- ``CanvasPoint``
+- ``CanvasSize``
+
+### Modifiable values
+
+- ``Modifiable``
+- ``Changeable``
+- ``DelayedValue``
+- ``<-(lhs:rhs:)``
+
+### Drawing rectangles
+
+- ``rect(_:_:_:_:_:)-6u6nv``
+- ``rect(_:_:_:_:_:)-bn7t``
+- ``rect(center:size:cornerRadius:)``
+- ``rect(origin:size:cornerRadius:)``
+- ``rect(origin:opposite:cornerRadius:)``
+- ``rect(x:y:width:height:cornerRadius:)``
+- ``rect(x:y:oppositeX:oppositeY:cornerRadius:)``
+- ``rect(centerX:centerY:width:height:cornerRadius:)
+- ``rect(centerX:centerY:xRadius:yRadius:cornerRadius:)``
+- ``rectMode(_:)``
+- ``RectMode``

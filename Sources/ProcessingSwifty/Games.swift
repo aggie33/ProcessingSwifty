@@ -162,6 +162,7 @@ extension Content {
 public enum Instruction {
     case draw((inout GraphicsContext, CGSize, GameValues) -> Void)
     case action((inout GameValues) -> Void)
+    case node((CanvasValues) -> Content)
     
     /// If `self` is drawing something, draws that thing.
     func draw(context: inout GraphicsContext, size: CGSize, values: GameValues) {
@@ -172,6 +173,7 @@ public enum Instruction {
             return
         }
     }
+    
     func action(values: inout GameValues) {
         if case let .action(closure) = self {
             closure(&values)
@@ -287,14 +289,20 @@ public struct GameView<T: Game>: View {
                 
                 self.canvasValues = CanvasValues(frameTime: frameTime, mouseX: mousePosition.x, mouseY: mousePosition.y, pmouseX: prevMousePosition.x, pmouseY: prevMousePosition.y, width: size.width, height: size.height, mouseIsPressed: mouseIsPressed, mouseButton: mouseButton, key: key, keyText: keyText, specialKey: specialKey, keyIsPressed: keyIsPressed)
                 
-                for instruction in game.draw(values: canvasValues).instructions {
-                    switch instruction() {
-                    case .draw(let closure):
-                        closure(&ctx, size, values)
-                    case .action(let closure):
-                        closure(&values)
+                func evaluateInstructions(_ instructions: [() -> Instruction]) {
+                    for instruction in instructions {
+                        switch instruction() {
+                        case .draw(let closure):
+                            closure(&ctx, size, values)
+                        case .action(let closure):
+                            closure(&values)
+                        case .node(let closure):
+                            evaluateInstructions(closure(canvasValues).instructions)
+                        }
                     }
                 }
+                
+                evaluateInstructions(game.draw(values: canvasValues).instructions)
                 
                 self.prevMousePosition = mousePosition
             }
@@ -576,5 +584,8 @@ public protocol Node {
 }
 
 public extension ContentBuilder {
+    func buildExpression(_ expression: some Node) -> Content {
+        .init(instructions: [ { .node(expression.draw) }])
+    }
 }
 
