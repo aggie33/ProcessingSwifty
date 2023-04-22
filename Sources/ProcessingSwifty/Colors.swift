@@ -14,25 +14,50 @@ import Foundation
 import SwiftUI
 
 public enum ColorMode {
+    /// Red, green, and blue
     case rgb
+    
+    /// Hue, saturation and brightness
     case hsb
 }
 
+/// Draws a single-color background across the whole scene, covering anything drawn beforehand.
+/// - Parameter p: A single value between `0...255` that will be used to determine the shade of gray used.
 public func background(_ p: Double) -> Instruction {
     background(p, p, p)
 }
+
+/// Draws a single-color background across the whole scene, covering anything drawn beforehand.
+/// - Parameter color: The color of the background.
 public func background(_ color: Color) -> Instruction {
     return .draw { context, size, values in
         let rect = CGRect(origin: .zero, size: size)
         context.fill(Path(rect), with: .color(color))
     }
 }
+
+/// Draws a single-color background across the whole scene, covering anything drawn beforehand.
+/// - Parameters:
+///   - red: The amount of red in the color, which must be between 0 and 255.
+///   - green: The amount of red in the color, which must be between 0 and 255.
+///   - blue: The amount of red in the color, which must be between 0 and 255.
+///   - alpha: The opacity of the color, which must be between 0 and 255, 255 being fully opaque and 0 being fully clear.
 public func background(red: Double, green: Double, blue: Double, alpha: Double = 255) -> Instruction {
     background(Color(red: red / 255, green: green / 255, blue: blue / 255, opacity: alpha / 255))
 }
+
+/// Draws a single-color background across the whole scene, covering anything drawn beforehand.
+/// - Parameters:
+///   - hue: The hue of the color, which must be between 0 and 255.
+///   - saturation: The saturation of the color, which must be between 0 and 255.
+///   - brightness: The brightness of the color, which must be between 0 and 255.
+///   - alpha: The opacity of the color, which must be between 0 (fully clear) and 255 (fully opaque).
 public func background(hue: Double, saturation: Double, brightness: Double, alpha: Double = 255) -> Instruction {
     background(Color(hue: hue / 255, saturation: saturation / 255, brightness: brightness / 255, opacity: alpha / 255))
 }
+
+
+/// Draws a single-color background across the whole scene, covering anything drawn beforehand. If `colorMode` is `rgb`, it's equivalent to calling `background(red:green:blue:alpha:)` without argument labels. If `colorMode` is `hsb`, it's equivalent to calling `background(hue:saturation:brightness:alpha)` without argument labels.
 public func background(_ p1: Double, _ p2: Double, _ p3: Double, _ alpha: Double = 255) -> Instruction {
     .draw { context, size, values in
         switch values.colorMode {

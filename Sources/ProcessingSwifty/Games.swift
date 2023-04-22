@@ -570,3 +570,11 @@ infix operator <-
 public func <- <T> (lhs: Modifiable<T>, rhs: DelayedValue<T>) -> Instruction {
     rhs.send { lhs.wrappedValue = $0 }
 }
+
+public protocol Node {
+    @ContentBuilder func draw(values: CanvasValues) -> Content
+}
+
+public extension ContentBuilder {
+}
+
