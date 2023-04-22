@@ -398,17 +398,23 @@ public func arc(centerX: CanvasValue, centerY: CanvasValue, width: CanvasValue, 
         let verticalScaleFactor = height / width
         
         let strokePath = Path {
-            $0.addArc(center: CGPoint(x: centerX, y: centerY), radius: width / 2, startAngle: start, endAngle: stop, clockwise: false)
-        }.applying(.init(scaleX: 1, y: verticalScaleFactor).translatedBy(x: 0, y: -((centerY * verticalScaleFactor) - centerY)))
+            $0.addArc(center: CGPoint(x: 0, y: 0), radius: width / 2, startAngle: start, endAngle: stop, clockwise: false)
+        }//.applying(.init(scaleX: 1, y: verticalScaleFactor).translatedBy(x: 0, y: -((centerY * verticalScaleFactor) - centerY)))
         
         let fillPath = Path {
-            $0.addArc(center: CGPoint(x: centerX, y: centerY), radius: width / 2, startAngle: start, endAngle: stop, clockwise: false)
-            $0.addLine(to: CGPoint(x: centerX, y: centerY))
+            $0.addArc(center: CGPoint(x: 0, y: 0), radius: width / 2, startAngle: start, endAngle: stop, clockwise: false)
+            $0.addLine(to: CGPoint(x: 0, y: 0))
             $0.closeSubpath()
-        }.applying(.init(scaleX: 1, y: verticalScaleFactor).translatedBy(x: 0, y: -((centerY * verticalScaleFactor) - centerY)))
+        }//.applying(.init(scaleX: 1, y: verticalScaleFactor).translatedBy(x: 0, y: -((centerY * verticalScaleFactor) - centerY)))
         
+        let matrix = context.transform
+        
+        context.translateBy(x: centerX, y: centerY)
+        //context.scaleBy(x: 1, y: verticalScaleFactor)
         fill(path: fillPath, context: &context, size: size, values: values)
         stroke(path: strokePath, context: &context, size: size, values: values)
+        
+        context.transform = matrix
     }
 }
 public func arc(center: CanvasPoint, size: CanvasSize, from startAngle: Angle, to endAngle: Angle) -> Instruction {
