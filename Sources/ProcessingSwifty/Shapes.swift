@@ -410,7 +410,7 @@ public func arc(centerX: CanvasValue, centerY: CanvasValue, width: CanvasValue, 
         let matrix = context.transform
         
         context.translateBy(x: centerX, y: centerY)
-        //context.scaleBy(x: 1, y: verticalScaleFactor)
+        context.scaleBy(x: 1, y: verticalScaleFactor)
         fill(path: fillPath, context: &context, size: size, values: values)
         stroke(path: strokePath, context: &context, size: size, values: values)
         
