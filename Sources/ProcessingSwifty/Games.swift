@@ -587,5 +587,9 @@ public extension ContentBuilder {
     func buildExpression(_ expression: some Node) -> Content {
         .init(instructions: [ { .node(expression.draw) }])
     }
+    
+    func buildExpression(_ component: Content?) -> Content {
+        component ?? Content(instructions: [])
+    }
 }
 
